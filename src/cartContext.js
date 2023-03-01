@@ -1,5 +1,7 @@
 import { createContext, useState } from "react";
 import { productsArray, getProductData } from "./productStore";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";  
 
 export const CartContext = createContext({
   items: [],
@@ -20,6 +22,7 @@ export function CartProvider({ children }) {
         if(quantity === undefined){
             return 0;
         }
+        console.log(quantity);
         return quantity;
     }
     function addOneToCart(id){
@@ -32,7 +35,7 @@ export function CartProvider({ children }) {
                 cartProducts.map(product => product.id === id ? { ...product, quantity: product.quantity + 1} : product)
             )
         }
-        setCartProducts([...cartProducts, {id: id, quantity:2}])        
+           
     }
 
     function deleteFromCart(id){
@@ -58,7 +61,7 @@ export function CartProvider({ children }) {
     function getTotalCost(){
 
         let TotalCost = 0;
-        cartProducts.map((cartItem)=> {
+        cartProducts.map((cartItem) => {
             const productData = getProductData(cartItem.id);
             TotalCost += (productData.price * cartItem.quantity);
         })
